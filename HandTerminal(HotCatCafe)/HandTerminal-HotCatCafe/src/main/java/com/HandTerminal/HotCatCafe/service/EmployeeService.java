@@ -8,8 +8,6 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 
 import com.HandTerminal.HotCatCafe.DTOs.EmployeeDTO;
@@ -39,19 +37,17 @@ public class EmployeeService {
         return response.getBody();
     }
 
-    public EmployeeDTO findEmployeeById(@RequestParam Long id) {
+    public EmployeeDTO findEmployeeById(Long id) {
 
         String url = this.url + "/byId?id=" + id;
 
-        HttpEntity<List<EmployeeDTO>> httpEntity = new HttpEntity<>(HeaderSetter.setHeader());
-
-        ResponseEntity<EmployeeDTO> response = restTemplate.exchange(url, HttpMethod.GET, httpEntity,
+        EmployeeDTO response = restTemplate.getForObject(url,
                 EmployeeDTO.class);
 
-        return response.getBody();
+        return response;
     }
 
-    public Long addEmployee(@RequestBody EmployeeDTO employeeDTO) {
+    public Long addEmployee(EmployeeDTO employeeDTO) {
         String url = this.url + "/add";
 
         HttpEntity<EmployeeDTO> httpEntity = new HttpEntity<>(employeeDTO, HeaderSetter.setHeader());
@@ -61,7 +57,7 @@ public class EmployeeService {
         return response.getBody();
     }
 
-    public EmployeeDTO updateEmployee(@RequestBody EmployeeDTO employeeDTO, @RequestParam Long id) {
+    public EmployeeDTO updateEmployee(EmployeeDTO employeeDTO, Long id) {
 
         String url = this.url + "/update?id=" + id;
 
@@ -73,7 +69,7 @@ public class EmployeeService {
         return response.getBody();
     }
 
-    public String deleteById(@RequestParam Long id) {
+    public String deleteById(Long id) {
 
         String url = this.url + "/deleteById?id=" + id;
 

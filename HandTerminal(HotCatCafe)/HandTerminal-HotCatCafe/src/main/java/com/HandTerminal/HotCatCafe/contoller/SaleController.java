@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.HandTerminal.HotCatCafe.DTOs.SaleDTO;
@@ -24,33 +24,33 @@ public class SaleController {
         this.saleService = saleService;
     }
 
-    @GetMapping("/getAll")
+    @GetMapping
     public ResponseEntity<List<SaleDTO>> getAllSales() {
         return ResponseEntity.ok(saleService.getAllSales());
     }
 
-    @GetMapping("/byId")
-    public ResponseEntity<SaleDTO> findSaleById(@RequestParam Long id) {
+    @GetMapping("/id/{id}")
+    public ResponseEntity<SaleDTO> findSaleById(@PathVariable Long id) {
         return ResponseEntity.ok(saleService.findSaleById(id));
     }
 
-    @GetMapping("/byEmployeeId")
-    public ResponseEntity<List<SaleDTO>> getSalesByEmployeeId(@RequestParam Long employeeId) {
+    @GetMapping("/employee/{employeeId}")
+    public ResponseEntity<List<SaleDTO>> getSalesByEmployeeId(@PathVariable Long employeeId) {
         return ResponseEntity.ok(saleService.getSalesByEmployeeId(employeeId));
     }
 
-    @GetMapping("/byOrderId")
-    public ResponseEntity<SaleDTO> getSalesByOrderId(@RequestParam Long orderId) {
+    @GetMapping("/order/{orderId}")
+    public ResponseEntity<SaleDTO> getSalesByOrderId(@PathVariable Long orderId) {
         return ResponseEntity.ok(saleService.getSalesByOrderId(orderId));
     }
 
-    @PostMapping("/insert")
-    public ResponseEntity<SaleDTO> insertSale(@RequestParam Long orderId, @RequestParam Long employeeId) {
+    @PostMapping("/{orderId}&{employeeId}")
+    public ResponseEntity<SaleDTO> insertSale(@PathVariable Long orderId, @PathVariable Long employeeId) {
         return ResponseEntity.ok(saleService.insertSale(orderId, employeeId));
     }
 
-    @DeleteMapping("/delete")
-    public ResponseEntity<Long> deleteSaleById(@RequestParam Long id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Long> deleteSaleById(@PathVariable Long id) {
         return ResponseEntity.ok(saleService.deleteSaleById(id));
     }
 }

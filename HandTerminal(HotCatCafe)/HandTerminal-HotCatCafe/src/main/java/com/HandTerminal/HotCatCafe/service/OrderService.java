@@ -37,17 +37,16 @@ public class OrderService {
     }
 
     public OrderDTO findOrderById(Long id) {
-        String url = this.url + "/byId=" + id;
+        String url = this.url + "/byId?orderId=" + id;
 
-        HttpEntity<OrderDTO> httpEntity = new HttpEntity<>(HeaderSetter.setHeader());
-        ResponseEntity<OrderDTO> response = restTemplate.exchange(url, HttpMethod.GET, httpEntity,
+        OrderDTO response = restTemplate.getForObject(url,
                 OrderDTO.class);
 
-        return response.getBody();
+        return response;
     }
 
     public List<OrderDTO> findByEmployeeId(Long employeeId) {
-        String url = this.url + "/byEmploye?=" + employeeId;
+        String url = this.url + "/byEmployeeId?employeeId=" + employeeId;
 
         HttpEntity<List<OrderDTO>> httpEntity = new HttpEntity<>(HeaderSetter.setHeader());
         ResponseEntity<List<OrderDTO>> response = restTemplate.exchange(url, HttpMethod.GET, httpEntity,
@@ -58,7 +57,7 @@ public class OrderService {
     }
 
     public List<OrderDTO> findByTableNumber(String tableNumber) {
-        String url = this.url + "/byTableNumber?=" + tableNumber;
+        String url = this.url + "/byTableNumber?tableNumber=" + tableNumber;
 
         HttpEntity<List<OrderDTO>> httpEntity = new HttpEntity<>(HeaderSetter.setHeader());
         ResponseEntity<List<OrderDTO>> response = restTemplate.exchange(url, HttpMethod.GET, httpEntity,

@@ -54,12 +54,10 @@ public class ExtraService {
 
         String url = this.url + "/byId?id=" + id;
 
-        HttpEntity<List<ExtraDTO>> httpEntity = new HttpEntity<>(HeaderSetter.setHeader());
-
-        ResponseEntity<ExtraDTO> response = restTemplate.exchange(url, HttpMethod.GET, httpEntity,
+        ExtraDTO response = restTemplate.getForObject(url,
                 ExtraDTO.class);
 
-        return response.getBody();
+        return response;
     }
 
     public Long addExtra(ExtraDTO extraDTO) {
@@ -68,7 +66,7 @@ public class ExtraService {
 
         HttpEntity<ExtraDTO> httpEntity = new HttpEntity<>(extraDTO, HeaderSetter.setHeader());
 
-        ResponseEntity<Long> response = restTemplate.exchange(url, HttpMethod.GET, httpEntity,
+        ResponseEntity<Long> response = restTemplate.exchange(url, HttpMethod.POST, httpEntity,
                 Long.class);
 
         return response.getBody();
@@ -80,7 +78,7 @@ public class ExtraService {
 
         HttpEntity<ExtraDTO> httpEntity = new HttpEntity<>(HeaderSetter.setHeader());
 
-        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, httpEntity,
+        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.DELETE, httpEntity,
                 String.class);
 
         return response.getBody();

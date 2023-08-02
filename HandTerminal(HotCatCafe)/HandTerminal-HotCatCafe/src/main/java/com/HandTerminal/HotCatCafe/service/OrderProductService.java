@@ -12,8 +12,8 @@ import org.springframework.web.client.RestTemplate;
 
 import com.HandTerminal.HotCatCafe.DTOs.OrderDTO;
 import com.HandTerminal.HotCatCafe.DTOs.OrderProductDTO;
-import com.HandTerminal.HotCatCafe.VMs.OrderProductVM;
 import com.HandTerminal.HotCatCafe.common.HeaderSetter;
+import com.HandTerminal.HotCatCafe.requestModels.OrderProductRequestModel;
 
 @Service
 public class OrderProductService {
@@ -54,7 +54,7 @@ public class OrderProductService {
 
     public List<OrderProductDTO> getOrderProductsByOrderId(Long orderId) {
 
-        String url = this.url + "/getByProductId?orderId?=" + orderId;
+        String url = this.url + "/getByOrderId?orderId=" + orderId;
 
         HttpEntity<List<OrderProductDTO>> httpEntity = new HttpEntity<>(HeaderSetter.setHeader());
 
@@ -66,16 +66,16 @@ public class OrderProductService {
     }
 
     public void deleteById(Long id) {
-        String url = this.url + "/deleteById?=" + id;
+        String url = this.url + "/deleteById?id=" + id;
 
         restTemplate.exchange(url, HttpMethod.DELETE, null, Void.class);
     }
 
-    public OrderDTO insertOrderProduct(OrderProductVM opVM) {
+    public OrderDTO insertOrderProduct(OrderProductRequestModel opVM) {
 
         String url = this.url + "/insert";
 
-        HttpEntity<OrderProductVM> httpEntity = new HttpEntity<>(opVM, HeaderSetter.setHeader());
+        HttpEntity<OrderProductRequestModel> httpEntity = new HttpEntity<>(opVM, HeaderSetter.setHeader());
 
         ResponseEntity<OrderDTO> response = restTemplate.exchange(url, HttpMethod.POST, httpEntity, OrderDTO.class);
 

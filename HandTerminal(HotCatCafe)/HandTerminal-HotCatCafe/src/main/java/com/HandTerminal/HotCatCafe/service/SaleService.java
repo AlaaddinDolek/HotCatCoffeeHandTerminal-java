@@ -13,8 +13,8 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import com.HandTerminal.HotCatCafe.DTOs.SaleDTO;
 import com.HandTerminal.HotCatCafe.common.HeaderSetter;
+import com.HandTerminal.HotCatCafe.DTOs.SaleDTO;
 
 @Service
 public class SaleService {
@@ -29,26 +29,30 @@ public class SaleService {
 
     public List<SaleDTO> getAllSales() {
         String url = this.url + "/getAll";
-        return restTemplate.getForObject(url, null,
+        HttpEntity<List<SaleDTO>> httpEntity = new HttpEntity<>(HeaderSetter.setHeader());
+        ResponseEntity<List<SaleDTO>> response = restTemplate.exchange(url, HttpMethod.GET, httpEntity,
                 new ParameterizedTypeReference<List<SaleDTO>>() {
                 });
+        return response.getBody();
 
     }
 
     public SaleDTO findSaleById(Long id) {
-        String url = this.url + "/byId?=" + id;
+        String url = this.url + "/byId?id=" + id;
         return restTemplate.getForObject(url, SaleDTO.class);
     }
 
     public List<SaleDTO> getSalesByEmployeeId(Long employeeId) {
-        String url = this.url + "/byEmployeeId?=" + employeeId;
-        return restTemplate.getForObject(url, null,
+        String url = this.url + "/byEmployeeId?employeeId=" + employeeId;
+        HttpEntity<List<SaleDTO>> httpEntity = new HttpEntity<>(HeaderSetter.setHeader());
+        ResponseEntity<List<SaleDTO>> response = restTemplate.exchange(url, HttpMethod.GET, httpEntity,
                 new ParameterizedTypeReference<List<SaleDTO>>() {
                 });
+        return response.getBody();
     }
 
     public SaleDTO getSalesByOrderId(Long orderId) {
-        String url = this.url + "/byOrderId?=" + orderId;
+        String url = this.url + "/byOrderId?orderId=" + orderId;
         return restTemplate.getForObject(url, SaleDTO.class);
     }
 
@@ -56,16 +60,16 @@ public class SaleService {
         String url = this.url + "/insert?orderId=" + orderId + "&" + "employeeId=" + employeeId;
 
         MultiValueMap<String, String> requestMap = new LinkedMultiValueMap<>();
-    requestMap.add("orderId", String.valueOf(orderId));
-    requestMap.add("employeeId", String.valueOf(employeeId));
+        requestMap.add("orderId", String.valueOf(orderId));
+        requestMap.add("employeeId", String.valueOf(employeeId));
 
-     HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(requestMap, HeaderSetter.setHeader());
-     ResponseEntity<SaleDTO> response = restTemplate.exchange(url, HttpMethod.POST, httpEntity, SaleDTO.class);
+        HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(requestMap, HeaderSetter.setHeader());
+        ResponseEntity<SaleDTO> response = restTemplate.exchange(url, HttpMethod.POST, httpEntity, SaleDTO.class);
         return response.getBody();
     }
 
     public Long deleteSaleById(Long id) {
-        String url = this.url + "/delete?=" + id;
+        String url = this.url + "/delete?id=" + id;
         return restTemplate.exchange(url, HttpMethod.DELETE, null, Long.class).getBody();
     }
 }

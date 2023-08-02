@@ -6,15 +6,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.HandTerminal.HotCatCafe.DTOs.OrderDTO;
 import com.HandTerminal.HotCatCafe.DTOs.OrderProductDTO;
-import com.HandTerminal.HotCatCafe.VMs.OrderProductVM;
+import com.HandTerminal.HotCatCafe.requestModels.OrderProductRequestModel;
 import com.HandTerminal.HotCatCafe.service.OrderProductService;
 
 @RestController
@@ -27,28 +27,28 @@ public class OrderProductController {
         this.orderProductService = orderProductService;
     }
 
-    @GetMapping("/getAll")
+    @GetMapping
     public ResponseEntity<List<OrderProductDTO>> getAll() {
         return ResponseEntity.ok(orderProductService.getAllOrderProducts());
     }
 
-    @GetMapping("/getByProductId")
-    public ResponseEntity<List<OrderProductDTO>> getByProductId(@RequestParam Long productId)   {
+    @GetMapping("/product/{productId}")
+    public ResponseEntity<List<OrderProductDTO>> getByProductId(@PathVariable Long productId) {
         return ResponseEntity.ok(orderProductService.getOrderProductsByProductId(productId));
     }
 
-    @GetMapping("/getByOrderId")
-    public ResponseEntity<List<OrderProductDTO>> getByOrderId(@RequestParam Long orderId)   {
+    @GetMapping("/order/{orderId}")
+    public ResponseEntity<List<OrderProductDTO>> getByOrderId(@PathVariable Long orderId) {
         return ResponseEntity.ok(orderProductService.getOrderProductsByOrderId(orderId));
     }
 
-    @DeleteMapping("/deleteById")
-    public void deleteById(@RequestParam Long id) {
+    @DeleteMapping("/{id}")
+    public void deleteById(@PathVariable Long id) {
         orderProductService.deleteById(id);
     }
 
-    @PostMapping("insert")
-    public ResponseEntity<OrderDTO> insertOrderProduct(@RequestBody OrderProductVM opVM){
+    @PostMapping
+    public ResponseEntity<OrderDTO> insertOrderProduct(@RequestBody OrderProductRequestModel opVM) {
         return ResponseEntity.ok(orderProductService.insertOrderProduct(opVM));
     }
 }

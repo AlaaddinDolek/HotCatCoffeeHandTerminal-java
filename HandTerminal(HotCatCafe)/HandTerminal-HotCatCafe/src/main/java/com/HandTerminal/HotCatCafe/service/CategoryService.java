@@ -8,8 +8,6 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 
 import com.HandTerminal.HotCatCafe.DTOs.CategoryDTO;
@@ -27,20 +25,20 @@ public class CategoryService {
         this.restTemplate = restTemplate;
     }
 
-    public CategoryDTO createCategory(@RequestBody CategoryDTO categoryDTO) {
+    public Long createCategory(CategoryDTO categoryDTO) {
 
         String url = this.url + "/add";
 
         HttpEntity<CategoryDTO> httpEntity = new HttpEntity<>(categoryDTO, HeaderSetter.setHeader());
 
-        ResponseEntity<CategoryDTO> response = restTemplate.exchange(url, HttpMethod.POST, httpEntity,
-                CategoryDTO.class);
+        ResponseEntity<Long> response = restTemplate.exchange(url, HttpMethod.POST, httpEntity,
+                Long.class);
 
         return response.getBody();
 
     }
 
-    public String updateCategory(@RequestBody CategoryDTO categoryDTO, @RequestParam Long id) {
+    public String updateCategory(CategoryDTO categoryDTO, Long id) {
         String url = this.url + "/update?id=" + id;
 
         HttpEntity<CategoryDTO> httpEntity = new HttpEntity<>(categoryDTO, HeaderSetter.setHeader());
@@ -49,7 +47,7 @@ public class CategoryService {
         return response.getBody();
     }
 
-    public String deleteCategoryById(@RequestParam Long id) {
+    public String deleteCategoryById(Long id) {
         String url = this.url + "/deleteById?id=" + id;
 
         HttpEntity<String> httpEntity = new HttpEntity<>(HeaderSetter.setHeader());
@@ -72,29 +70,25 @@ public class CategoryService {
         return response.getBody();
     }
 
-    public CategoryDTO getCategoryById(@RequestParam Long id) {
+    public CategoryDTO getCategoryById(Long id) {
 
         String url = this.url + "/getById?id=" + id;
 
-        HttpEntity<CategoryDTO> httpEntity = new HttpEntity<>(HeaderSetter.setHeader());
-
-        ResponseEntity<CategoryDTO> response = restTemplate.exchange(url, HttpMethod.GET, httpEntity,
+        CategoryDTO response = restTemplate.getForObject(url,
                 CategoryDTO.class);
 
-        return response.getBody();
+        return response;
 
     }
 
-    public CategoryDTO getCategoryByCategoryName(@RequestParam String categoryName) {
+    public CategoryDTO getCategoryByCategoryName(String categoryName) {
 
         String url = this.url + "/getByCategoryName?categoryName=" + categoryName;
 
-        HttpEntity<CategoryDTO> httpEntity = new HttpEntity<>(HeaderSetter.setHeader());
-
-        ResponseEntity<CategoryDTO> response = restTemplate.exchange(url, HttpMethod.GET, httpEntity,
+        CategoryDTO response = restTemplate.getForObject(url,
                 CategoryDTO.class);
 
-        return response.getBody();
+        return response;
 
     }
 }
