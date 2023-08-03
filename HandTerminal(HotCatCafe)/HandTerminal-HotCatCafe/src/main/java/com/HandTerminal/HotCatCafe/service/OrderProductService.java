@@ -28,11 +28,9 @@ public class OrderProductService {
 
     public List<OrderProductDTO> getAllOrderProducts() {
 
-        String url = this.url + "/getAll";
-
         HttpEntity<List<OrderProductDTO>> httpEntity = new HttpEntity<>(HeaderSetter.setHeader());
 
-        ResponseEntity<List<OrderProductDTO>> response = restTemplate.exchange(url, HttpMethod.GET, httpEntity,
+        ResponseEntity<List<OrderProductDTO>> response = restTemplate.exchange(this.url, HttpMethod.GET, httpEntity,
                 new ParameterizedTypeReference<List<OrderProductDTO>>() {
                 });
 
@@ -41,7 +39,7 @@ public class OrderProductService {
 
     public List<OrderProductDTO> getOrderProductsByProductId(Long productId) {
 
-        String url = this.url + "/getByProductId?productId=" + productId;
+        String url = this.url + "/product/" + productId;
 
         HttpEntity<List<OrderProductDTO>> httpEntity = new HttpEntity<>(HeaderSetter.setHeader());
 
@@ -54,7 +52,7 @@ public class OrderProductService {
 
     public List<OrderProductDTO> getOrderProductsByOrderId(Long orderId) {
 
-        String url = this.url + "/getByOrderId?orderId=" + orderId;
+        String url = this.url + "/order/" + orderId;
 
         HttpEntity<List<OrderProductDTO>> httpEntity = new HttpEntity<>(HeaderSetter.setHeader());
 
@@ -66,18 +64,17 @@ public class OrderProductService {
     }
 
     public void deleteById(Long id) {
-        String url = this.url + "/deleteById?id=" + id;
+        String url = this.url + id;
 
         restTemplate.exchange(url, HttpMethod.DELETE, null, Void.class);
     }
 
-    public OrderDTO insertOrderProduct(OrderProductRequestModel opVM) {
+    public OrderDTO insertOrderProduct(OrderProductRequestModel opRM) {
 
-        String url = this.url + "/insert";
 
-        HttpEntity<OrderProductRequestModel> httpEntity = new HttpEntity<>(opVM, HeaderSetter.setHeader());
+        HttpEntity<OrderProductRequestModel> httpEntity = new HttpEntity<>(opRM, HeaderSetter.setHeader());
 
-        ResponseEntity<OrderDTO> response = restTemplate.exchange(url, HttpMethod.POST, httpEntity, OrderDTO.class);
+        ResponseEntity<OrderDTO> response = restTemplate.exchange(this.url, HttpMethod.POST, httpEntity, OrderDTO.class);
 
         return response.getBody();
     }

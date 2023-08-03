@@ -26,10 +26,9 @@ public class OrderService {
     }
 
     public List<OrderDTO> getAllOrders() {
-        String url = this.url + "/getAll";
 
         HttpEntity<List<OrderDTO>> httpEntity = new HttpEntity<>(HeaderSetter.setHeader());
-        ResponseEntity<List<OrderDTO>> response = restTemplate.exchange(url, HttpMethod.GET, httpEntity,
+        ResponseEntity<List<OrderDTO>> response = restTemplate.exchange(this.url, HttpMethod.GET, httpEntity,
                 new ParameterizedTypeReference<List<OrderDTO>>() {
                 });
 
@@ -37,7 +36,7 @@ public class OrderService {
     }
 
     public OrderDTO findOrderById(Long id) {
-        String url = this.url + "/byId?orderId=" + id;
+        String url = this.url + "/id/" + id;
 
         OrderDTO response = restTemplate.getForObject(url,
                 OrderDTO.class);
@@ -46,7 +45,7 @@ public class OrderService {
     }
 
     public List<OrderDTO> findByEmployeeId(Long employeeId) {
-        String url = this.url + "/byEmployeeId?employeeId=" + employeeId;
+        String url = this.url + "/employee/" + employeeId;
 
         HttpEntity<List<OrderDTO>> httpEntity = new HttpEntity<>(HeaderSetter.setHeader());
         ResponseEntity<List<OrderDTO>> response = restTemplate.exchange(url, HttpMethod.GET, httpEntity,
@@ -57,7 +56,7 @@ public class OrderService {
     }
 
     public List<OrderDTO> findByTableNumber(String tableNumber) {
-        String url = this.url + "/byTableNumber?tableNumber=" + tableNumber;
+        String url = this.url + "/table/" + tableNumber;
 
         HttpEntity<List<OrderDTO>> httpEntity = new HttpEntity<>(HeaderSetter.setHeader());
         ResponseEntity<List<OrderDTO>> response = restTemplate.exchange(url, HttpMethod.GET, httpEntity,
@@ -68,7 +67,7 @@ public class OrderService {
     }
 
     public List<OrderDTO> findTotalPriceGreaterThan(BigDecimal price) {
-        String url = this.url + "/greaterThan?price=" + price;
+        String url = this.url + "/price/greater/" + price;
 
         HttpEntity<List<OrderDTO>> httpEntity = new HttpEntity<>(HeaderSetter.setHeader());
         ResponseEntity<List<OrderDTO>> response = restTemplate.exchange(url, HttpMethod.GET, httpEntity,
@@ -79,7 +78,7 @@ public class OrderService {
     }
 
     public List<OrderDTO> findTotalPriceBetween(BigDecimal minPrice, BigDecimal maxPrice) {
-        String url = this.url + "/between?minPrice=" + minPrice + "&" + "maxPrice=" + maxPrice;
+        String url = this.url + "/price/between/" + minPrice + "&" + maxPrice;
 
         HttpEntity<List<OrderDTO>> httpEntity = new HttpEntity<>(HeaderSetter.setHeader());
         ResponseEntity<List<OrderDTO>> response = restTemplate.exchange(url, HttpMethod.GET, httpEntity,
@@ -90,7 +89,7 @@ public class OrderService {
     }
 
     public List<OrderDTO> findTotalPriceLessThan(BigDecimal price) {
-        String url = this.url + "/lessThan?price=" + price;
+        String url = this.url + "/price/less/" + price;
 
         HttpEntity<List<OrderDTO>> httpEntity = new HttpEntity<>(HeaderSetter.setHeader());
         ResponseEntity<List<OrderDTO>> response = restTemplate.exchange(url, HttpMethod.GET, httpEntity,
@@ -101,7 +100,7 @@ public class OrderService {
     }
 
     public Long insertOrder(String tableNumber, Long employeeId) {
-        String url = this.url + "/insert?tableNumber=" + tableNumber + "&" + "employeeId=" + employeeId;
+        String url = this.url + tableNumber + "&" + employeeId;
 
         HttpEntity<OrderDTO> httpEntity = new HttpEntity<>(HeaderSetter.setHeader());
         ResponseEntity<Long> response = restTemplate.exchange(url, HttpMethod.POST, httpEntity,
@@ -111,7 +110,7 @@ public class OrderService {
     }
 
     public Long deleteById(Long id) {
-        String url = this.url + "/delete?id=" + id;
+        String url = this.url + id;
 
         HttpEntity<OrderDTO> httpEntity = new HttpEntity<>(HeaderSetter.setHeader());
         ResponseEntity<Long> response = restTemplate.exchange(url, HttpMethod.DELETE, httpEntity,

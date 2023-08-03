@@ -27,11 +27,10 @@ public class CategoryService {
 
     public Long createCategory(CategoryDTO categoryDTO) {
 
-        String url = this.url + "/add";
 
         HttpEntity<CategoryDTO> httpEntity = new HttpEntity<>(categoryDTO, HeaderSetter.setHeader());
 
-        ResponseEntity<Long> response = restTemplate.exchange(url, HttpMethod.POST, httpEntity,
+        ResponseEntity<Long> response = restTemplate.exchange(this.url, HttpMethod.POST, httpEntity,
                 Long.class);
 
         return response.getBody();
@@ -39,7 +38,7 @@ public class CategoryService {
     }
 
     public String updateCategory(CategoryDTO categoryDTO, Long id) {
-        String url = this.url + "/update?id=" + id;
+        String url = this.url + "/" + id;
 
         HttpEntity<CategoryDTO> httpEntity = new HttpEntity<>(categoryDTO, HeaderSetter.setHeader());
 
@@ -48,7 +47,7 @@ public class CategoryService {
     }
 
     public String deleteCategoryById(Long id) {
-        String url = this.url + "/deleteById?id=" + id;
+        String url = this.url +  "/" + id;
 
         HttpEntity<String> httpEntity = new HttpEntity<>(HeaderSetter.setHeader());
 
@@ -59,11 +58,9 @@ public class CategoryService {
 
     public List<CategoryDTO> getAllCategories() {
 
-        String url = this.url + "/getAll";
-
         HttpEntity<List<CategoryDTO>> httpEntity = new HttpEntity<>(HeaderSetter.setHeader());
 
-        ResponseEntity<List<CategoryDTO>> response = restTemplate.exchange(url, HttpMethod.GET, httpEntity,
+        ResponseEntity<List<CategoryDTO>> response = restTemplate.exchange(this.url, HttpMethod.GET, httpEntity,
                 new ParameterizedTypeReference<List<CategoryDTO>>() {
                 });
 
@@ -72,7 +69,7 @@ public class CategoryService {
 
     public CategoryDTO getCategoryById(Long id) {
 
-        String url = this.url + "/getById?id=" + id;
+        String url = this.url + "/id/"+id;
 
         CategoryDTO response = restTemplate.getForObject(url,
                 CategoryDTO.class);
@@ -83,7 +80,7 @@ public class CategoryService {
 
     public CategoryDTO getCategoryByCategoryName(String categoryName) {
 
-        String url = this.url + "/getByCategoryName?categoryName=" + categoryName;
+        String url = this.url + "/name/"+categoryName;
 
         CategoryDTO response = restTemplate.getForObject(url,
                 CategoryDTO.class);

@@ -28,9 +28,10 @@ public class SaleService {
     }
 
     public List<SaleDTO> getAllSales() {
-        String url = this.url + "/getAll";
+
         HttpEntity<List<SaleDTO>> httpEntity = new HttpEntity<>(HeaderSetter.setHeader());
-        ResponseEntity<List<SaleDTO>> response = restTemplate.exchange(url, HttpMethod.GET, httpEntity,
+
+        ResponseEntity<List<SaleDTO>> response = restTemplate.exchange(this.url, HttpMethod.GET, httpEntity,
                 new ParameterizedTypeReference<List<SaleDTO>>() {
                 });
         return response.getBody();
@@ -43,7 +44,7 @@ public class SaleService {
     }
 
     public List<SaleDTO> getSalesByEmployeeId(Long employeeId) {
-        String url = this.url + "/byEmployeeId?employeeId=" + employeeId;
+        String url = this.url + "/employee/" + employeeId;
         HttpEntity<List<SaleDTO>> httpEntity = new HttpEntity<>(HeaderSetter.setHeader());
         ResponseEntity<List<SaleDTO>> response = restTemplate.exchange(url, HttpMethod.GET, httpEntity,
                 new ParameterizedTypeReference<List<SaleDTO>>() {
@@ -52,12 +53,12 @@ public class SaleService {
     }
 
     public SaleDTO getSalesByOrderId(Long orderId) {
-        String url = this.url + "/byOrderId?orderId=" + orderId;
+        String url = this.url + "/order/" + orderId;
         return restTemplate.getForObject(url, SaleDTO.class);
     }
 
     public SaleDTO insertSale(Long orderId, Long employeeId) {
-        String url = this.url + "/insert?orderId=" + orderId + "&" + "employeeId=" + employeeId;
+        String url = this.url + orderId + "&" + employeeId;
 
         MultiValueMap<String, String> requestMap = new LinkedMultiValueMap<>();
         requestMap.add("orderId", String.valueOf(orderId));
@@ -69,7 +70,7 @@ public class SaleService {
     }
 
     public Long deleteSaleById(Long id) {
-        String url = this.url + "/delete?id=" + id;
+        String url = this.url + id;
         return restTemplate.exchange(url, HttpMethod.DELETE, null, Long.class).getBody();
     }
 }

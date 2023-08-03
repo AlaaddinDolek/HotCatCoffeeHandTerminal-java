@@ -26,11 +26,10 @@ public class EmployeeService {
 
     public List<EmployeeDTO> getAllEmployees() {
 
-        String url = this.url + "/getAll";
 
         HttpEntity<List<EmployeeDTO>> httpEntity = new HttpEntity<>(HeaderSetter.setHeader());
 
-        ResponseEntity<List<EmployeeDTO>> response = restTemplate.exchange(url, HttpMethod.GET, httpEntity,
+        ResponseEntity<List<EmployeeDTO>> response = restTemplate.exchange(this.url, HttpMethod.GET, httpEntity,
                 new ParameterizedTypeReference<List<EmployeeDTO>>() {
                 });
 
@@ -39,7 +38,7 @@ public class EmployeeService {
 
     public EmployeeDTO findEmployeeById(Long id) {
 
-        String url = this.url + "/byId?id=" + id;
+        String url = this.url + "/id/" + id;
 
         EmployeeDTO response = restTemplate.getForObject(url,
                 EmployeeDTO.class);
@@ -48,18 +47,17 @@ public class EmployeeService {
     }
 
     public Long addEmployee(EmployeeDTO employeeDTO) {
-        String url = this.url + "/add";
 
         HttpEntity<EmployeeDTO> httpEntity = new HttpEntity<>(employeeDTO, HeaderSetter.setHeader());
 
-        HttpEntity<Long> response = restTemplate.exchange(url, HttpMethod.POST, httpEntity, Long.class);
+        HttpEntity<Long> response = restTemplate.exchange(this.url, HttpMethod.POST, httpEntity, Long.class);
 
         return response.getBody();
     }
 
     public EmployeeDTO updateEmployee(EmployeeDTO employeeDTO, Long id) {
 
-        String url = this.url + "/update?id=" + id;
+        String url = this.url + id;
 
         HttpEntity<EmployeeDTO> httpEntity = new HttpEntity<>(employeeDTO, HeaderSetter.setHeader());
 
@@ -71,7 +69,7 @@ public class EmployeeService {
 
     public String deleteById(Long id) {
 
-        String url = this.url + "/deleteById?id=" + id;
+        String url = this.url  + id;
 
         HttpEntity<EmployeeDTO> httpEntity = new HttpEntity<>(HeaderSetter.setHeader());
 

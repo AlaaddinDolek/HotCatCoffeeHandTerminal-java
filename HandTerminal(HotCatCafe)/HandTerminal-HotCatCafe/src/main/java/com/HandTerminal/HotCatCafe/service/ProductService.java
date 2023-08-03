@@ -28,29 +28,27 @@ public class ProductService {
 
     public List<ProductDTO> getAllProducts() {
 
-        String url = this.url + "/getAll";
-
            HttpEntity<List<ProductDTO>> httpEntity = new HttpEntity<List<ProductDTO>>( HeaderSetter.setHeader());
-        ResponseEntity<List<ProductDTO>> response = restTemplate.exchange(url, HttpMethod.GET, httpEntity,
+        ResponseEntity<List<ProductDTO>> response = restTemplate.exchange(this.url, HttpMethod.GET, httpEntity,
                 new ParameterizedTypeReference<List<ProductDTO>>() {
                 });
         return response.getBody();
     }
 
     public ProductDTO findById(Long id) {
-        String url = this.url + "/byId?id=" + id;
+        String url = this.url + id;
         ProductDTO response = restTemplate.getForObject(url, ProductDTO.class);
         return response;
     }
 
     public ProductDTO findByProductName(String productName) {
-        String url = this.url + "/byProductName?productName=" + productName;
+        String url = this.url + "/name/" + productName;
         ProductDTO response = restTemplate.getForObject(url, ProductDTO.class);
         return response;
     }
 
     public List<ProductDTO> findByCategoryId(Long categoryId) {
-        String url = this.url + "/byCategoryId?categoryId=" + categoryId;
+        String url = this.url + "/category/" + categoryId;
         HttpEntity<List<ProductDTO>> httpEntity = new HttpEntity<List<ProductDTO>>( HeaderSetter.setHeader());
         ResponseEntity<List<ProductDTO>> response = restTemplate.exchange(url, HttpMethod.GET, httpEntity,
                 new ParameterizedTypeReference<List<ProductDTO>>() {
@@ -59,7 +57,7 @@ public class ProductService {
     }
 
     public List<ProductDTO> findTotalPriceGreaterThan(BigDecimal price) {
-        String url = this.url + "/priceGreater?price=" + price;
+        String url = this.url + "/price/greater/" + price;
 
         HttpEntity<List<ProductDTO>> httpEntity = new HttpEntity<List<ProductDTO>>( HeaderSetter.setHeader());
         ResponseEntity<List<ProductDTO>> response = restTemplate.exchange(url, HttpMethod.GET, httpEntity,
@@ -69,7 +67,7 @@ public class ProductService {
     }
 
     public List<ProductDTO> findTotalPriceBetween(BigDecimal minPrice, BigDecimal maxPrice) {
-        String url = this.url + "/priceBetween?minPrice=" + minPrice + "&" + "maxPrice=" + maxPrice;
+        String url = this.url + "/price/between/" + minPrice + "&" + maxPrice;
 
          HttpEntity<List<ProductDTO>> httpEntity = new HttpEntity<List<ProductDTO>>( HeaderSetter.setHeader());
         ResponseEntity<List<ProductDTO>> response = restTemplate.exchange(url, HttpMethod.GET, httpEntity,
@@ -80,7 +78,7 @@ public class ProductService {
 
     public List<ProductDTO> findTotalPriceLessThan(BigDecimal price) {
 
-        String url = this.url + "/priceLess?price=" + price;
+        String url = this.url + "/price/less/" + price;
 
           HttpEntity<List<ProductDTO>> httpEntity = new HttpEntity<List<ProductDTO>>( HeaderSetter.setHeader());
         ResponseEntity<List<ProductDTO>> response = restTemplate.exchange(url, HttpMethod.GET, httpEntity,
@@ -90,7 +88,7 @@ public class ProductService {
     }
 
     public List<ProductDTO> findUnitInStockLessThan(Integer stock) {
-        String url = this.url + "/stockLess?stock=" + stock;
+        String url = this.url + "/stock/less/" + stock;
 
           HttpEntity<List<ProductDTO>> httpEntity = new HttpEntity<List<ProductDTO>>( HeaderSetter.setHeader());
         ResponseEntity<List<ProductDTO>> response = restTemplate.exchange(url, HttpMethod.GET, httpEntity,
@@ -101,7 +99,7 @@ public class ProductService {
 
     public List<ProductDTO> findUnitInStockGreaterThan(Integer stock) {
 
-        String url = this.url + "/stockGreater?stock=" + stock;
+        String url = this.url + "/stock/greater/" + stock;
 
           HttpEntity<List<ProductDTO>> httpEntity = new HttpEntity<List<ProductDTO>>( HeaderSetter.setHeader());
         ResponseEntity<List<ProductDTO>> response = restTemplate.exchange(url, HttpMethod.GET, httpEntity,
@@ -112,7 +110,7 @@ public class ProductService {
 
     public List<ProductDTO> findUnitInStockBetween(Integer minStock, Integer maxStock) {
 
-        String url = this.url + "/stockBetween?minStock=" + minStock + "&" + "maxStock=" + maxStock;
+        String url = this.url + "/stock/between/" + minStock + "&" + maxStock;
 
           HttpEntity<List<ProductDTO>> httpEntity = new HttpEntity<List<ProductDTO>>( HeaderSetter.setHeader());
         ResponseEntity<List<ProductDTO>> response = restTemplate.exchange(url, HttpMethod.GET, httpEntity,
@@ -122,14 +120,14 @@ public class ProductService {
     }
 
     public Long addProduct(ProductDTO productDTO) {
-        String url = this.url + "/add";
+        
         HttpEntity<ProductDTO> httpEntity = new HttpEntity<ProductDTO>(productDTO, HeaderSetter.setHeader());
-        ResponseEntity<Long> response = restTemplate.exchange(url, HttpMethod.POST, httpEntity, Long.class);
+        ResponseEntity<Long> response = restTemplate.exchange(this.url, HttpMethod.POST, httpEntity, Long.class);
         return response.getBody();
     }
 
     public ProductDTO updateProduct(ProductDTO productDTO, Long id) {
-          String url = this.url + "/update?productId="+id;
+          String url = this.url +id;
         HttpEntity<ProductDTO> httpEntity = new HttpEntity<>(productDTO, HeaderSetter.setHeader());
         ResponseEntity<ProductDTO> response = restTemplate.exchange(url, HttpMethod.PUT, httpEntity, ProductDTO.class);
 

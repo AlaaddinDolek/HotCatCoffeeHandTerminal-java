@@ -26,11 +26,9 @@ public class ExtraService {
 
     public List<ExtraDTO> getAllExtras() {
 
-        String url = this.url + "/getAll";
-
         HttpEntity<List<ExtraDTO>> httpEntity = new HttpEntity<>(HeaderSetter.setHeader());
 
-        ResponseEntity<List<ExtraDTO>> response = restTemplate.exchange(url, HttpMethod.GET, httpEntity,
+        ResponseEntity<List<ExtraDTO>> response = restTemplate.exchange(this.url, HttpMethod.GET, httpEntity,
                 new ParameterizedTypeReference<List<ExtraDTO>>() {
                 });
 
@@ -39,7 +37,7 @@ public class ExtraService {
 
     public List<ExtraDTO> getExtrasByCategory(String categoryName) {
 
-        String url = this.url + "/byCategoryName?categoryName=" + categoryName;
+        String url = this.url + "/name/" + categoryName;
 
         HttpEntity<List<ExtraDTO>> httpEntity = new HttpEntity<>(HeaderSetter.setHeader());
 
@@ -52,7 +50,7 @@ public class ExtraService {
 
     public ExtraDTO getExtraById(Long id) {
 
-        String url = this.url + "/byId?id=" + id;
+        String url = this.url + "/id/" + id;
 
         ExtraDTO response = restTemplate.getForObject(url,
                 ExtraDTO.class);
@@ -62,11 +60,9 @@ public class ExtraService {
 
     public Long addExtra(ExtraDTO extraDTO) {
 
-        String url = this.url + "/add";
-
         HttpEntity<ExtraDTO> httpEntity = new HttpEntity<>(extraDTO, HeaderSetter.setHeader());
 
-        ResponseEntity<Long> response = restTemplate.exchange(url, HttpMethod.POST, httpEntity,
+        ResponseEntity<Long> response = restTemplate.exchange(this.url, HttpMethod.POST, httpEntity,
                 Long.class);
 
         return response.getBody();
@@ -74,7 +70,7 @@ public class ExtraService {
 
     public String deleteById(Long id) {
 
-        String url = this.url + "/deleteById?id=" + id;
+        String url = this.url + "/id/" + id;
 
         HttpEntity<ExtraDTO> httpEntity = new HttpEntity<>(HeaderSetter.setHeader());
 
